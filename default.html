@@ -1,295 +1,365 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="WebApplication1.WebForm1" %>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background-color: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      max-width: 800px;
-      width: 100%;
-      position: relative;
-    }
-
-    .main-panel {
-      overflow-y: auto;
-      padding: 10px;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      margin-bottom: 10px;
-      height: 550px;
-      transition: background-color 0.3s;
-    }
-
-    .panel-btn {
-      margin-top: 10px;
-      margin-bottom: 20px;
-      padding: 10px 20px;
-      font-size: 18px;
-      background-color: #908c8e;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .panel-btn:hover {
-      background-color: #3c3b3b;
-    }
-
-    .panel {
-      background-color: #ecf0f1;
-      border: 1px solid #bdc3c7;
-      margin-top: 10px;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s;
-      gap: 10px;
-      display: flex;
-    }
-
-    .panel:hover {
-      background-color: #d2d7db;
-    }
-
-    .panel select {
-      padding: 10px;
-      font-size: 14px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-
-    .panel-content {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #333;
-    }
-
-    .button-container {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      margin: 10px;
-    }
-
-    .multipleListInput {
-      box-sizing: border-box;
-      font-size: 13px;
-      padding: 14px 20px 12px 45px;
-      border: none;
-    }
-
-    .multipleList{
-      overflow-y: auto;
-      overflow-x:hidden;
-      height:350px;
-      border: 1px solid #ddd;
-      z-index: 1;
-    }
-    .multipleList input {
-      color: black;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-    }
-    
-
-    .multipleList a:hover {background-color: #ddd;}
-
-    .show {display: block;}
-  </style>
-  <title>Soft Design</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Organizer</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div class="container">
-    <div class="main-panel" id="mainPanel">
-      <div class="panel" id="filterPanel" style="display: none;">
-        <select class="filter-dropdown" onchange="updatePanelContent(this)">
-          <option value="">Choose Something</option>
-          <option value="Cluster">Cluster</option>
-          <option value="Host">Host</option>
-          <option value="DataCenter">DataCenter</option>
-          <option value="PowerState">PowerState</option>
-          <option value="CPU">CPU</option>
-          <option value="Memory">Memory</option>
-          <option value="Network">Network</option>
-          <option value="Partition">Partition</option>
-          <option value="Disk">Disk</option>
-        </select>
-        <div class="content-panel">
-          
-            <div id="ClusterContent" class="div-content" style="display: none;">
-                <div class="multipleList">
-                    <input type="text" placeholder="Choose Clusters.." class="multipleListInput" onkeyup="filterFunction(this)">
-                    <div class="toggleList">
-                        <input type="checkbox" value="Asdsd">
-                        <input type="checkbox" value="Asdsd">
-                        <input type="checkbox" value="Asdsd">
-
-                    </div>
-                </div>
-
-            </div>
-
-            <div id="HostContent" class="div-content" style="display: none;">
-              <!-- Host Dropdown -->
-              <select  class="dropdown-content">
-                <option value="HostOption1">Host Option 1</option>
-                <option value="HostOption2">Host Option 2</option>
-              </select>
-            </div>
-
-            <div id="DataCenterContent" class="div-content" style="display: none;">
-              <!-- DataCenter Dropdown -->
-              <select class="dropdown-content">
-                <option value="DataCenterOption1">DataCenter Option 1</option>
-                <option value="DataCenterOption2">DataCenter Option 2</option>
-              </select>
-            </div>
-
-            <div id="CPUContent" class="div-content" style="display: none;">
-                <select class="dropdown-content">
-                    <option value="CPUOption1">CPU Count</option>
-                    <option value="CPUOption2">CPU Size</option>
-                    <option value="CPUOption2">Average CPU Usage</option>
-                </select>
-
-                <select>
-                    <option><</option>
-                    <option>></option>
-                    <option><=</option>
-                    <option>>=</option>
-                    <option>=</option>
-                </select>
-                <input type="text" placeholder="Choose Clusters.." class="multipleListInput" onkeyup="filterFunction(this)">
-
-
-            </div>
-
-            <div id="MemoryContent" class="div-content" style="display: none;">
-              <!-- Memory Dropdown -->
-              <select class="dropdown-content">
-                <option value="MemoryOption1">Memory Size</option>
-                <option value="MemoryOption2">Average Memory Usage</option>
-              </select>
-            </div>
-
-            <div id="NetworkContent" class="div-content" style="display: none;">
-              <select class="dropdown-content">
-                <option value="NetworkOption1">Network Card Count</option>
-                <option value="NetworkOption1">Average Network Using</option>
-              </select>
-            </div>
-
-            <div id="PartitionContent" class="div-content" style="display: none;">
-              <!-- Partition Dropdown -->
-              <select class="dropdown-content">
-                <option value="Owner">Owner</option>
-                <option value="Created Date">Created Date</option>
-              </select>
-            </div>
-            <div id="PowerStateContent" class="div-content" style="display: none;">
-              <select class="dropdown-content">
-                <option value="PoweredOff">PoweredOff</option>
-                <option value="PoweredOn">PoweredOn</option>
-              </select>
-            </div>
-
-            <div id="DiskContent" class="div-content" style="display: none;">
-              <!-- Disk Dropdown -->
-              <select class="dropdown-content" >
-                <option value="DiskOption1">Disk Count</option>
-                <option value="DiskOption2">Total Disk Size</option>
-                <option value="DiskOption2">Average Disk Using</option>
-              </select>
-            </div>
+    <div class="header">
+        <div id="logo"></div>
+        <div>
+            <h1 class="baslik" id="baslik">Pendik Production & Test Replicated VMs</h1>
         </div>
-      </div>
     </div>
-    <div class="button-container">
-      <button class="panel-btn" onclick="addPanel()">Add Filter</button>
-      <button class="panel-btn" onclick="getAll()">Get All</button>
-      <p class="vm-found">32998 vm found</p>
+
+    <div class="table-container">
+        <div class="table-top">
+            <h2 id="rowCounter"></h2>
+            <div class="button-container">
+                <div class="button active" onclick="setRowsPerPage(this)">2</div>
+                <div class="button" onclick="setRowsPerPage(this)">5</div>
+                <div class="button" onclick="setRowsPerPage(this)">10</div>
+            </div>
+            <button id="reset-button">Reset</button>
+            <button id="export-button">Export</button>
+        </div>
+        <table id="contentTable">
+            <thead id="table-head">
+                <!-- Dynamically filled columns will go here -->
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
     </div>
-  
-  <script>
-    function clearPanelContent(contentPanel) {
-      var dropdowns = contentPanel.querySelectorAll('.div-content');
-      dropdowns.forEach(function (dropdown) {
-        dropdown.style.display = 'none';
-      });
-    }
 
-    function addPanel() {
-      var newPanel = document.createElement("div");
-      const filterPanel = document.getElementById('filterPanel');
+    <div class="pagination" id="pagination"></div>
 
-      newPanel.className = "panel";
-      newPanel.innerHTML = filterPanel.innerHTML;
-      newPanel.style.display = "";
-      var mainPanel = document.getElementById("mainPanel");
-      mainPanel.appendChild(newPanel);
-      mainPanel.scrollTop = mainPanel.scrollHeight;
-    }
+    <script>
+        const MAX_PAGE = 10;
+        let rowsPerPage = 2;
+        let baseData = [];
+        let columns = [
+            { name: "names", label: "Name", hasSearchBar: true },
+            { name: "powerState", label: "Power State" },
+            { name: "ipv4", label: "IP Address" },
+            { name: "os", label: "Operating System" },
+            { name: "cluster", label: "Cluster" },
+            { name: "vCenter", label: "vCenter" },
+            { name: "datastore", label: "Datastore" }
+        ];
+        let currentPage = 1;
+        let isAscending = true;
+        let filteredData = [];
 
-    function updatePanelContent(dropdown) {
-      var panel = dropdown.closest('.panel');
-      var contentPanel = panel.querySelector('.content-panel');
-      clearPanelContent(contentPanel);
+        function sortTableByColumn(columnIndex) {
+            filteredData.sort((rowA, rowB) => {
+                const valueA = rowA[columns[columnIndex].name].toString().trim();
+                const valueB = rowB[columns[columnIndex].name].toString().trim();
+                if (!isNaN(valueA) && !isNaN(valueB)) {
+                    return isAscending ? valueA - valueB : valueB - valueA;
+                }
+                if (Date.parse(valueA) && Date.parse(valueB)) {
+                    return isAscending ? new Date(valueA) - new Date(valueB) : new Date(valueB) - new Date(valueA);
+                }
+                return isAscending ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+            });
+            currentPage = 1;
+            renderTablePage(currentPage, filteredData);
+        }
 
-      if (dropdown.value == "") {
-        return;
-      }
+        function renderTablePage(pageNumber, data) {
+            const startIndex = (pageNumber - 1) * rowsPerPage;
+            const endIndex = startIndex + rowsPerPage;
+            const paginatedData = data.slice(startIndex, endIndex);
 
-      var myFilter = panel.querySelector('#' + dropdown.value + "Content");
-      myFilter.style.display = "";
-    }
+            const tableBody = document.getElementById('tableBody');
+            tableBody.innerHTML = '';
 
-    function getAll() {
-      // Your logic for getting all
-    }
-
-    addPanel();
-  </script>
-      <script>
-        function showMultipleList(content) {
-              var mContent = content.closest('.multipleContent');
-              mContent.querySelector('.multipleDropdown').classList.toggle("show");
-          }
-
-        function filterFunction(input) {
-            var filter, ul, li, a, i;
-            var mContent = input.closest('.multipleList');
-            filter = input.value.toUpperCase();
-            a = mContent.querySelector('.toggleList').getElementsByTagName("input");
-            for (i = 0; i < a.length; i++) {
-            txtValue = a[i].textContent || a[i].innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                a[i].style.display = "";
-            } else {
-                a[i].style.display = "none";
+            if (paginatedData.length === 0) {
+                const row = document.createElement('tr');
+                const cell = document.createElement('td');
+                cell.colSpan = columns.length;
+                cell.textContent = "No data available";
+                row.appendChild(cell);
+                tableBody.appendChild(row);
+                return;
             }
+
+            paginatedData.forEach(row => {
+                const tableRow = document.createElement('tr');
+                columns.forEach(column => {
+                    const cell = document.createElement('td');
+                    cell.textContent = row[column.name];
+                    tableRow.appendChild(cell);
+                });
+                tableBody.appendChild(tableRow);
+            });
+        }
+
+        function renderPaginationControls(data) {
+            const totalPages = Math.ceil(data.length / rowsPerPage);
+            const paginationContainer = document.getElementById('pagination');
+            paginationContainer.innerHTML = '';
+
+            let startPage = Math.max(1, currentPage - Math.floor(MAX_PAGE / 2));
+            let endPage = Math.min(totalPages, currentPage + Math.floor(MAX_PAGE / 2));
+
+            for (let i = startPage; i <= endPage; i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                button.className = 'page-link';
+                if (i === currentPage) {
+                    button.classList.add('active');
+                }
+                button.addEventListener('click', () => {
+                    currentPage = i;
+                    renderTablePage(currentPage, data);
+                    renderPaginationControls(data);
+                });
+                paginationContainer.appendChild(button);
             }
         }
+
+        function createTableColumns() {
+            const tableHeader = document.getElementById('table-head');
+            tableHeader.innerHTML = '';
+
+            columns.forEach((column, index) => {
+                const headerCell = document.createElement('th');
+                headerCell.addEventListener('click', () => {
+                    if (event.target.tagName !== 'TH') return;
+                    sortTableByColumn(index);
+                    isAscending = !isAscending;
+                });
+
+                if (column.hasSearchBar) {
+                    headerCell.innerHTML = column.label;
+                    tableHeader.appendChild(headerCell);
+                    return;
+                }
+                headerCell.classList.add('dropdown');
+                headerCell.innerHTML = `${column.label}<span class="dropdown-arrow">&#9660;</span>`;
+
+                const dropdownContent = document.createElement('div');
+                dropdownContent.classList.add('dropdown-content');
+
+                const searchInput = document.createElement('input');
+                searchInput.type = 'text';
+                searchInput.placeholder = 'Search';
+                searchInput.addEventListener('keyup', () => filterCheckboxes(searchInput));
+
+                dropdownContent.appendChild(searchInput);
+
+                const selectAllContainer = document.createElement('div');
+                selectAllContainer.classList.add('select-all-div');
+                const selectAllCheckbox = document.createElement('input');
+                selectAllCheckbox.type = 'checkbox';
+                selectAllCheckbox.addEventListener('change', () => {
+                    const checkboxes = dropdownContent.querySelectorAll('.checkboxes div:not([style*="display: none"]) input[type="checkbox"]');
+                    checkboxes.forEach(checkbox => checkbox.checked = selectAllCheckbox.checked);
+                    applyFilters(dropdownContent);
+                });
+                const selectAllLabel = document.createElement('label');
+                selectAllLabel.textContent = 'Select All';
+                selectAllContainer.appendChild(selectAllCheckbox);
+                selectAllContainer.appendChild(selectAllLabel);
+
+                dropdownContent.appendChild(selectAllContainer);
+
+                const checkboxesContainer = document.createElement('div');
+                checkboxesContainer.classList.add('checkboxes');
+                dropdownContent.appendChild(checkboxesContainer);
+
+                dropdownContent.appendChild(document.createElement('br'));
+                headerCell.appendChild(dropdownContent);
+                tableHeader.appendChild(headerCell);
+
+                generateCheckboxesForColumn(dropdownContent, index);
+            });
+        }
+
+        function createSearchInput() {
+            columns.forEach((column, index) => {
+                if (column.hasSearchBar) {
+                    const searchInput = document.createElement('input');
+                    searchInput.type = 'text';
+                    searchInput.placeholder = `Search ${column.label}`;
+                    searchInput.addEventListener('input', () => {
+                        applyFilters(null);
+                    });
+                    document.querySelector('.table-top').prepend(searchInput);
+                }
+            });
+        }
+
+        function generateCheckboxesForColumn(dropdownContent, columnIndex) {
+            const checkboxesContainer = dropdownContent.querySelector('.checkboxes');
+            checkboxesContainer.querySelectorAll("div").forEach((div) => {
+                const checkbox = div.querySelector("input[type='checkbox']");
+                if (!checkbox.checked) {
+                    div.remove();
+                }
+            });
+
+            const uniqueValues = [...new Set(filteredData.map(row => row[columns[columnIndex].name].toString().trim()))];
+            uniqueValues.sort();
+
+            uniqueValues.forEach(value => {
+                if (checkboxesContainer.querySelector(`input[value='${value}']`)) {
+                    return;
+                }
+                const checkboxContainer = document.createElement("div");
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.value = value;
+
+                checkbox.addEventListener("change", () => checkbox.checked ? applyFilters(dropdownContent) : applyFilters(null));
+
+                const label = document.createElement("label");
+                label.textContent = value;
+
+                checkboxContainer.appendChild(checkbox);
+                checkboxContainer.appendChild(label);
+                checkboxContainer.appendChild(document.createElement("br"));
+                checkboxesContainer.appendChild(checkboxContainer);
+            });
+        }
+
+        function applyFilters(lastSelectedDropdown) {
+            const selectedFilters = Array.from(document.querySelectorAll("th"))
+                .map((column) => {
+                    if (column.classList.contains("dropdown")) {
+                        const checkboxesContainer = column.querySelector(".checkboxes");
+                        if (checkboxesContainer) {
+                            return Array.from(checkboxesContainer.querySelectorAll("input[type='checkbox']:checked"))
+                                .map(checkbox => checkbox.value);
+                        }
+                    }
+                    return [];
+                });
+
+            const searchInput = document.querySelector('.table-top input[type="text"]');
+            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+
+            const searchColumnName = columns[columns.findIndex(column => column.hasSearchBar)].name;
+
+            filteredData = baseData.filter(row => {
+                const matchesSearchTerm = row[searchColumnName].toLowerCase().includes(searchTerm);
+
+                const matchesFilters = selectedFilters.every((values, columnIndex) => {
+                    if (values.length === 0) return true;
+                    const columnName = columns[columnIndex].name;
+                    return values.includes(row[columnName]);
+                });
+                console.log(matchesSearchTerm, matchesFilters);
+                return matchesSearchTerm && matchesFilters;
+            });
+
+            columns.forEach((column, index) => {
+                if (column.hasSearchBar) return;
+
+                const headerCell = document.querySelectorAll("th")[index];
+                const dropdownContent = headerCell.querySelector(".dropdown-content");
+
+                if (dropdownContent !== lastSelectedDropdown || selectedFilters.flat().length === 0) {
+                    generateCheckboxesForColumn(dropdownContent, index);
+                }
+            });
+
+            currentPage = 1;
+            renderTablePage(currentPage, filteredData);
+            renderPaginationControls(filteredData);
+            updateRowCounter(filteredData);
+        }
+
+        function updateRowCounter() {
+            document.getElementById('rowCounter').textContent = `${filteredData.length} Rows Listed..`;
+        }
+
+        function setRowsPerPage(selectedButton) {
+            const buttons = document.querySelector(".button-container").querySelectorAll('.button');
+            buttons.forEach(button => button.classList.remove('active'));
+            selectedButton.classList.add('active');
+            rowsPerPage = parseInt(selectedButton.textContent);
+            currentPage = 1;
+            renderPaginationControls(filteredData);
+            renderTablePage(currentPage, filteredData);
+        }
+
+        document.getElementById('reset-button').addEventListener('click', (event) => {
+            event.preventDefault();
+            document.querySelectorAll("input[type='checkbox']").forEach(checkbox => checkbox.checked = false);
+            document.querySelectorAll("input[type='text']").forEach(input => input.value = '');
+            filteredData = baseData;
+            currentPage = 1;
+            applyFilters();
+        });
+
+        function filterCheckboxes(input) {
+            const checkboxes = input.parentElement.querySelectorAll(".checkboxes input[type='checkbox']");
+            checkboxes.forEach(checkbox => {
+                const label = checkbox.nextElementSibling;
+                if (label.textContent.toLowerCase().includes(input.value.toLowerCase())) {
+                    checkbox.parentElement.style.display = '';
+                } else {
+                    checkbox.parentElement.style.display = 'none';
+                }
+            });
+        }
+
+        function initializeTable() {
+            filteredData = baseData;
+            createTableColumns();
+            createSearchInput();
+            renderPaginationControls(filteredData);
+            renderTablePage(currentPage, filteredData);
+            updateRowCounter();
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            baseData = [
+                {
+                    names: "VM-01",
+                    powerState: "Running",
+                    ipv4: "192.168.1.10",
+                    os: "Windows Server 2019",
+                    cluster: "Cluster-A",
+                    vCenter: "vCenter-01",
+                    datastore: "Datastore-01"
+                },
+                {
+                    names: "VM-02",
+                    powerState: "Stopped",
+                    ipv4: "192.168.1.11",
+                    os: "Ubuntu 20.04",
+                    cluster: "Cluster-B",
+                    vCenter: "vCenter-02",
+                    datastore: "Datastore-02"
+                },
+                {
+                    names: "VM-03",
+                    powerState: "Running",
+                    ipv4: "192.168.1.12",
+                    os: "CentOS 7",
+                    cluster: "Cluster-A",
+                    vCenter: "vCenter-01",
+                    datastore: "Datastore-03"
+                },
+                {
+                    names: "VM-04",
+                    powerState: "Stopped",
+                    ipv4: "192.168.1.13",
+                    os: "Windows Server 2016",
+                    cluster: "Cluster-C",
+                    vCenter: "vCenter-03",
+                    datastore: "Datastore-04"
+                }
+            ];
+            initializeTable();
+        });
     </script>
 </body>
 
